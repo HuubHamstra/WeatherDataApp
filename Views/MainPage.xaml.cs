@@ -1,4 +1,4 @@
-﻿namespace WeatherDataApp;
+﻿namespace WeatherDataApp.Views;
 
 public partial class MainPage : ContentPage
 {
