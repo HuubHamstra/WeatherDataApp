@@ -21,12 +21,12 @@
 
         <HorizontalStackLayout Spacing="10">
             <VerticalStackLayout>
-                <Label Text="Startdatum:" FontSize="14" />
+                <Label Text="Start date:" FontSize="14" />
                 <DatePicker Date="{Binding StartDate}" />
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Text="Einddatum:" FontSize="14" />
+                <Label Text="End date:" FontSize="14" />
                 <DatePicker Date="{Binding EndDate}" />
             </VerticalStackLayout>
         </HorizontalStackLayout>
