@@ -64,6 +64,83 @@ namespace WeatherDataApp.ViewModels
             set { _endDate = value; OnPropertyChanged(); }
         }
 
+        private double _averageWindSpeed;
+        public double AverageWindSpeed
+        {
+            get => _averageWindSpeed;
+            set { _averageWindSpeed = value; OnPropertyChanged(); }
+        }
+
+        private double _averagePrecipitation;
+        public double AveragePrecipitation
+        {
+            get => _averagePrecipitation;
+            set { _averagePrecipitation = value; OnPropertyChanged(); }
+        }
+
+        private double _averageCloudCover;
+        public double AverageCloudCover
+        {
+            get => _averageCloudCover;
+            set { _averageCloudCover = value; OnPropertyChanged(); }
+        }
+
+        private double _averageHumidity;
+        public double AverageHumidity
+        {
+            get => _averageHumidity;
+            set { _averageHumidity = value; OnPropertyChanged(); }
+        }
+
+        private double _averagePressure;
+        public double AveragePressure
+        {
+            get => _averagePressure;
+            set { _averagePressure = value; OnPropertyChanged(); }
+        }
+
+        private bool _showTemperature = true;
+        public bool ShowTemperature
+        {
+            get => _showTemperature;
+            set { _showTemperature = value; OnPropertyChanged(); }
+        }
+
+        private bool _showWind = true;
+        public bool ShowWind
+        {
+            get => _showWind;
+            set { _showWind = value; OnPropertyChanged(); }
+        }
+
+        private bool _showPrecipitation = true;
+        public bool ShowPrecipitation
+        {
+            get => _showPrecipitation;
+            set { _showPrecipitation = value; OnPropertyChanged(); }
+        }
+
+        private bool _showCloud = true;
+        public bool ShowCloud
+        {
+            get => _showCloud;
+            set { _showCloud = value; OnPropertyChanged(); }
+        }
+
+        private bool _showHumidity = true;
+        public bool ShowHumidity
+        {
+            get => _showHumidity;
+            set { _showHumidity = value; OnPropertyChanged(); }
+        }
+
+        private bool _showPressure = true;
+        public bool ShowPressure
+        {
+            get => _showPressure;
+            set { _showPressure = value; OnPropertyChanged(); }
+        }
+
         public MainPageViewModel()
         {
             LoadWeatherCommand = new Command(async () => await LoadWeatherAsync());
@@ -87,6 +164,11 @@ namespace WeatherDataApp.ViewModels
                 AverageTemperature = data.AsParallel().Average(w => w.Temperature);
                 MaxTemperature = data.AsParallel().Max(w => w.Temperature);
                 MinTemperature = data.AsParallel().Min(w => w.Temperature);
+                AverageWindSpeed = data.AsParallel().Average(w => w.WindSpeed);
+                AveragePrecipitation = data.AsParallel().Average(w => w.Precipitation);
+                AverageCloudCover = data.AsParallel().Average(w => w.CloudCover);
+                AverageHumidity = data.AsParallel().Average(w => w.Humidity);
+                AveragePressure = data.AsParallel().Average(w => w.Pressure);
             }
 
             HasChartData = WeatherItems.Count > 0;

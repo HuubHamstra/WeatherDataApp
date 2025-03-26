@@ -19,6 +19,11 @@
             <Label Text="{Binding AverageTemperature, StringFormat='Average temperature: {0:F1} °C'}" />
             <Label Text="{Binding MaxTemperature, StringFormat='Max temperature: {0:F1} °C'}" />
             <Label Text="{Binding MinTemperature, StringFormat='Min temperature: {0:F1} °C'}" />
+            <Label Text="{Binding AverageWindSpeed, StringFormat='Average wind speed: {0:F1} km/h'}" />
+            <Label Text="{Binding AveragePrecipitation, StringFormat='Average precipitation: {0:F2} mm'}" />
+            <Label Text="{Binding AverageCloudCover, StringFormat='Average cloud cover: {0:F0}%'}" />
+            <Label Text="{Binding AverageHumidity, StringFormat='Average humidity: {0:F0}%'}" />
+            <Label Text="{Binding AveragePressure, StringFormat='Average pressure: {0:F0} hPa'}" />
 
             <HorizontalStackLayout Spacing="10">
                 <VerticalStackLayout>
@@ -32,7 +37,37 @@
                 </VerticalStackLayout>
             </HorizontalStackLayout>
 
-            <chart:SfCartesianChart HeightRequest="300" IsVisible="{Binding HasChartData}">
+            <VerticalStackLayout>
+                <Label Text="Select which lines to show:" FontAttributes="Bold" />
+
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowTemperature}" />
+                    <Label Text="Temperature" VerticalOptions="Center" />
+
+                    <CheckBox IsChecked="{Binding ShowWind}" />
+                    <Label Text="Wind" VerticalOptions="Center" />
+
+                    <CheckBox IsChecked="{Binding ShowPrecipitation}" />
+                    <Label Text="Precipitation" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowCloud}" />
+                    <Label Text="Cloud Cover" VerticalOptions="Center" />
+
+                    <CheckBox IsChecked="{Binding ShowHumidity}" />
+                    <Label Text="Humidity" VerticalOptions="Center" />
+
+                    <CheckBox IsChecked="{Binding ShowPressure}" />
+                    <Label Text="Pressure" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            
+            <chart:SfCartesianChart HeightRequest="400" IsVisible="{Binding HasChartData}">
+                <chart:SfCartesianChart.Legend>
+                    <chart:ChartLegend />
+                </chart:SfCartesianChart.Legend>
+
                 <chart:SfCartesianChart.XAxes>
                     <chart:DateTimeAxis IntervalType="Days" Interval="1" />
                 </chart:SfCartesianChart.XAxes>
@@ -40,11 +75,23 @@
                     <chart:NumericalAxis />
                 </chart:SfCartesianChart.YAxes>
 
-                <chart:LineSeries
-                    ItemsSource="{Binding WeatherItems}"
-                    XBindingPath="Time"
-                    YBindingPath="Temperature" 
-                    EnableTooltip="True" />
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="Temperature"
+                                EnableTooltip="True" Label="Temperature" IsVisible="{Binding ShowTemperature}" />
+
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="WindSpeed"
+                                EnableTooltip="True" Label="Wind Speed" IsVisible="{Binding ShowWind}" />
+
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="Precipitation"
+                                EnableTooltip="True" Label="Precipitation" IsVisible="{Binding ShowPrecipitation}" />
+
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="CloudCover"
+                                EnableTooltip="True" Label="Cloud Cover" IsVisible="{Binding ShowCloud}" />
+
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="Humidity"
+                                EnableTooltip="True" Label="Humidity" IsVisible="{Binding ShowHumidity}" />
+
+                <chart:LineSeries ItemsSource="{Binding WeatherItems}" XBindingPath="Time" YBindingPath="Pressure"
+                                EnableTooltip="True" Label="Pressure" IsVisible="{Binding ShowPressure}" />
             </chart:SfCartesianChart>
 
             <Button Text="Load weather data" Command="{Binding LoadWeatherCommand}" />
