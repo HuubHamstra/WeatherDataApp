@@ -11,55 +11,57 @@
         <viewModels:MainPageViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
 
-        <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="14" />
+            <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="14" />
 
-        <Label Text="{Binding AverageTemperature, StringFormat='Average temperature: {0:F1} °C'}" />
-        <Label Text="{Binding MaxTemperature, StringFormat='Max temperature: {0:F1} °C'}" />
-        <Label Text="{Binding MinTemperature, StringFormat='Min temperature: {0:F1} °C'}" />
+            <Label Text="{Binding AverageTemperature, StringFormat='Average temperature: {0:F1} °C'}" />
+            <Label Text="{Binding MaxTemperature, StringFormat='Max temperature: {0:F1} °C'}" />
+            <Label Text="{Binding MinTemperature, StringFormat='Min temperature: {0:F1} °C'}" />
 
-        <HorizontalStackLayout Spacing="10">
-            <VerticalStackLayout>
-                <Label Text="Start date:" FontSize="14" />
-                <DatePicker Date="{Binding StartDate}" />
-            </VerticalStackLayout>
+            <HorizontalStackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <Label Text="Start date:" FontSize="14" />
+                    <DatePicker Date="{Binding StartDate}" />
+                </VerticalStackLayout>
 
-            <VerticalStackLayout>
-                <Label Text="End date:" FontSize="14" />
-                <DatePicker Date="{Binding EndDate}" />
-            </VerticalStackLayout>
-        </HorizontalStackLayout>
+                <VerticalStackLayout>
+                    <Label Text="End date:" FontSize="14" />
+                    <DatePicker Date="{Binding EndDate}" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
 
-        <chart:SfCartesianChart HeightRequest="300" IsVisible="{Binding HasChartData}">
-            <chart:SfCartesianChart.XAxes>
-                <chart:DateTimeAxis IntervalType="Days" Interval="1" />
-            </chart:SfCartesianChart.XAxes>
-            <chart:SfCartesianChart.YAxes>
-                <chart:NumericalAxis />
-            </chart:SfCartesianChart.YAxes>
+            <chart:SfCartesianChart HeightRequest="300" IsVisible="{Binding HasChartData}">
+                <chart:SfCartesianChart.XAxes>
+                    <chart:DateTimeAxis IntervalType="Days" Interval="1" />
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis />
+                </chart:SfCartesianChart.YAxes>
 
-            <chart:LineSeries
-                ItemsSource="{Binding WeatherItems}"
-                XBindingPath="Time"
-                YBindingPath="Temperature" 
-                EnableTooltip="True" />
-        </chart:SfCartesianChart>
+                <chart:LineSeries
+                    ItemsSource="{Binding WeatherItems}"
+                    XBindingPath="Time"
+                    YBindingPath="Temperature" 
+                    EnableTooltip="True" />
+            </chart:SfCartesianChart>
 
-        <Button Text="Load weather data" Command="{Binding LoadWeatherCommand}" />
+            <Button Text="Load weather data" Command="{Binding LoadWeatherCommand}" />
 
-        <CollectionView ItemsSource="{Binding WeatherItems}" HeightRequest="500">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:WeatherData">
-                    <Frame BorderColor="Gray" Padding="10" Margin="0,5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Time}" />
-                            <Label Text="{Binding Temperature, StringFormat='Temp: {0} °C'}" />
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView ItemsSource="{Binding WeatherItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:WeatherData">
+                        <Frame BorderColor="Gray" Padding="10" Margin="0,5">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Time}" />
+                                <Label Text="{Binding Temperature, StringFormat='Temp: {0} °C'}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
