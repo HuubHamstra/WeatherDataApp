@@ -30,7 +30,7 @@
                     <VerticalStackLayout>
                         <Label Text="Start date:" FontSize="14" />
                         <DatePicker Date="{Binding StartDate}" />
-                    
+
                     </VerticalStackLayout>
 
                     <VerticalStackLayout>
@@ -38,10 +38,16 @@
                         <DatePicker Date="{Binding EndDate}" />
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
-                
+
                 <HorizontalStackLayout>
                     <Label Text="Warning: Large data set selected!" TextColor="Red" IsVisible="{Binding IsLargeDataSet}" />
                 </HorizontalStackLayout>
+
+                <Label Text="Amount of items per file:" FontSize="14" />
+                <Picker ItemsSource="{Binding EntriesPerFileOptions}" 
+                        SelectedItem="{Binding EntriesPerFile}"
+                        IsVisible="{Binding HasChartData}" />
+                <Button Text="Export data" Command="{Binding PickFolderCommand}" IsVisible="{Binding HasChartData}" />
             </VerticalStackLayout>
 
             <VerticalStackLayout>

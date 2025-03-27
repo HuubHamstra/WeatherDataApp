@@ -13,36 +13,43 @@ namespace WeatherDataApp.Services
         {
             string url = $"https://archive-api.open-meteo.com/v1/archive?latitude=52.37&longitude=4.89&start_date={startDate}&end_date={endDate}&hourly=temperature_2m,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure";
 
-            var json = await _httpClient.GetStringAsync(url);
-            using var doc = JsonDocument.Parse(json);
-            var root = doc.RootElement;
-
-            var times = root.GetProperty("hourly").GetProperty("time").EnumerateArray();
-            var temps = root.GetProperty("hourly").GetProperty("temperature_2m").EnumerateArray();
-            var wind = root.GetProperty("hourly").GetProperty("wind_speed_10m").EnumerateArray();
-            var precipitation = root.GetProperty("hourly").GetProperty("precipitation").EnumerateArray();
-            var cloud = root.GetProperty("hourly").GetProperty("cloudcover").EnumerateArray();
-            var humidity = root.GetProperty("hourly").GetProperty("relative_humidity_2m").EnumerateArray();
-            var pressure = root.GetProperty("hourly").GetProperty("surface_pressure").EnumerateArray();
-
-            var list = new List<WeatherData>();
-            while (times.MoveNext() && temps.MoveNext() && wind.MoveNext() &&
-                precipitation.MoveNext() && cloud.MoveNext() && humidity.MoveNext() && pressure.MoveNext())
+            try
             {
-                list.Add(new WeatherData
+                var json = await _httpClient.GetStringAsync(url);
+                using var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+
+                var times = root.GetProperty("hourly").GetProperty("time").EnumerateArray();
+                var temps = root.GetProperty("hourly").GetProperty("temperature_2m").EnumerateArray();
+                var wind = root.GetProperty("hourly").GetProperty("wind_speed_10m").EnumerateArray();
+                var precipitation = root.GetProperty("hourly").GetProperty("precipitation").EnumerateArray();
+                var cloud = root.GetProperty("hourly").GetProperty("cloudcover").EnumerateArray();
+                var humidity = root.GetProperty("hourly").GetProperty("relative_humidity_2m").EnumerateArray();
+                var pressure = root.GetProperty("hourly").GetProperty("surface_pressure").EnumerateArray();
+
+                var list = new List<WeatherData>();
+                while (times.MoveNext() && temps.MoveNext() && wind.MoveNext() &&
+                    precipitation.MoveNext() && cloud.MoveNext() && humidity.MoveNext() && pressure.MoveNext())
                 {
-                    Time = DateTime.Parse(times.Current.GetString()!),
-                    Temperature = temps.Current.GetDouble(),
-                    WindSpeed = wind.Current.GetDouble(),
-                    Precipitation = precipitation.Current.GetDouble(),
-                    CloudCover = cloud.Current.GetDouble(),
-                    Humidity = humidity.Current.GetDouble(),
-                    Pressure = pressure.Current.GetDouble()
-                });
+                    list.Add(new WeatherData
+                    {
+                        Time = DateTime.Parse(times.Current.GetString()!),
+                        Temperature = temps.Current.GetDouble(),
+                        WindSpeed = wind.Current.GetDouble(),
+                        Precipitation = precipitation.Current.GetDouble(),
+                        CloudCover = cloud.Current.GetDouble(),
+                        Humidity = humidity.Current.GetDouble(),
+                        Pressure = pressure.Current.GetDouble()
+                    });
+                }
+
+
+                return list;
             }
-
-
-            return list;
+            catch (HttpRequestException)
+            {
+                return new List<WeatherData>();
+            }
         }
 
         public async Task<List<WeatherData>> GetWeatherDataRangeParallelAsync(DateTime start, DateTime end)

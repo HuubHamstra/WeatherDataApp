@@ -1,4 +1,6 @@
-﻿namespace WeatherDataApp.Views;
+﻿using CommunityToolkit.Maui.Storage;
+
+namespace WeatherDataApp.Views;
 
 public partial class MainPage : ContentPage
 {

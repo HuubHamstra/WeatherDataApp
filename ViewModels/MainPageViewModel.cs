@@ -1,19 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Mvvm.Input;
 using WeatherDataApp.Models;
 using WeatherDataApp.Services;
 
 namespace WeatherDataApp.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public partial class MainPageViewModel : INotifyPropertyChanged
     {
         private readonly WeatherService _weatherService = new();
+
+        private readonly FileService _fileService = new();
 
         public ObservableCollection<WeatherData> WeatherItems { get; set; } = new();
 
         public ICommand LoadWeatherCommand { get; }
+
+        public List<int> EntriesPerFileOptions { get; } = new() { 10,20,30,40,50,60,70,80,90,100 };
+
+        private int _entriesPerFile;
+        public int EntriesPerFile
+        {
+            get => _entriesPerFile;
+            set 
+            { _entriesPerFile = value; OnPropertyChanged(); }
+        }
 
         private string _status = "Status: nothing loaded yet";
         public string Status
@@ -154,6 +169,7 @@ namespace WeatherDataApp.ViewModels
         public MainPageViewModel()
         {
             LoadWeatherCommand = new Command(async () => await LoadWeatherAsync());
+            _entriesPerFile = EntriesPerFileOptions.First();
         }
 
         private async Task LoadWeatherAsync()
@@ -183,6 +199,16 @@ namespace WeatherDataApp.ViewModels
 
             HasChartData = WeatherItems.Count > 0;
             Status = $"{WeatherItems.Count} data points loaded";
+        }
+
+        [RelayCommand]
+        public async Task PickFolder(CancellationToken cancellationToken)
+        {
+            var result = await FolderPicker.Default.PickAsync(cancellationToken);
+            if (result.IsSuccessful)
+            {
+                _fileService.ExportWeatherDataAsync(WeatherItems.ToList(), result.Folder.Path, _entriesPerFile);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
