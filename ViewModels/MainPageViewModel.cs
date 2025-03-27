@@ -54,15 +54,25 @@ namespace WeatherDataApp.ViewModels
         public DateTime StartDate
         {
             get => _startDate;
-            set { _startDate = value; OnPropertyChanged(); }
+            set 
+            { 
+                _startDate = value; OnPropertyChanged();
+                OnPropertyChanged(nameof(IsLargeDataSet));
+            }
         }
 
         private DateTime _endDate = new(2022, 1, 5);
         public DateTime EndDate
         {
             get => _endDate;
-            set { _endDate = value; OnPropertyChanged(); }
+            set 
+            { 
+                _endDate = value; OnPropertyChanged();
+                OnPropertyChanged(nameof(IsLargeDataSet));
+            }
         }
+
+        public bool IsLargeDataSet => (EndDate - StartDate).TotalDays > 31;
 
         private double _averageWindSpeed;
         public double AverageWindSpeed
