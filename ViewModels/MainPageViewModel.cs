@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.VisualBasic;
 using WeatherDataApp.Models;
 using WeatherDataApp.Services;
 
@@ -16,7 +17,12 @@ namespace WeatherDataApp.ViewModels
 
         private readonly FileService _fileService = new();
 
-        public ObservableCollection<WeatherData> WeatherItems { get; set; } = new();
+        private ObservableCollection<WeatherData> _weatherItems = new();
+        public ObservableCollection<WeatherData> WeatherItems
+        {
+            get => _weatherItems;
+            set { _weatherItems = value; OnPropertyChanged(); }
+        }
 
         public ICommand LoadWeatherCommand { get; }
 
@@ -180,25 +186,49 @@ namespace WeatherDataApp.ViewModels
             var start = new DateTime(2022, 1, 1);
             var end = new DateTime(2022, 1, 5);
 
-            var data = await _weatherService.GetWeatherDataRangeParallelAsync(StartDate, EndDate);
-
-            foreach(var item in data)
-                WeatherItems.Add(item);
-            
-            if(data.Count != 0)
+            try
             {
-                AverageTemperature = data.AsParallel().Average(w => w.Temperature);
-                MaxTemperature = data.AsParallel().Max(w => w.Temperature);
-                MinTemperature = data.AsParallel().Min(w => w.Temperature);
-                AverageWindSpeed = data.AsParallel().Average(w => w.WindSpeed);
-                AveragePrecipitation = data.AsParallel().Average(w => w.Precipitation);
-                AverageCloudCover = data.AsParallel().Average(w => w.CloudCover);
-                AverageHumidity = data.AsParallel().Average(w => w.Humidity);
-                AveragePressure = data.AsParallel().Average(w => w.Pressure);
-            }
+                var data = await _weatherService.GetWeatherDataRangeParallelAsync(StartDate, EndDate);
 
-            HasChartData = WeatherItems.Count > 0;
-            Status = $"{WeatherItems.Count} data points loaded";
+                WeatherItems = new ObservableCollection<WeatherData>(data);
+
+                if (data.Count != 0)
+                {
+                    (var stats, var weatherData) = await Task.Run(() =>
+                    {
+                        var avgTemp = data.AsParallel().Average(w => w.Temperature);
+                        var maxTemp = data.AsParallel().Max(w => w.Temperature);
+                        var minTemp = data.AsParallel().Min(w => w.Temperature);
+                        var avgWind = data.AsParallel().Average(w => w.WindSpeed);
+                        var avgPrecip = data.AsParallel().Average(w => w.Precipitation);
+                        var avgCloud = data.AsParallel().Average(w => w.CloudCover);
+                        var avgHumid = data.AsParallel().Average(w => w.Humidity);
+                        var avgPress = data.AsParallel().Average(w => w.Pressure);
+
+                        var collection = new ObservableCollection<WeatherData>(data);
+
+                        return (new { avgTemp, maxTemp, minTemp, avgWind, avgPrecip, avgCloud, avgHumid, avgPress }, collection);
+                    });
+
+                    AverageTemperature = stats.avgTemp;
+                    MaxTemperature = stats.maxTemp;
+                    MinTemperature = stats.minTemp;
+                    AverageWindSpeed = stats.avgWind;
+                    AveragePrecipitation = stats.avgPrecip;
+                    AverageCloudCover = stats.avgCloud;
+                    AverageHumidity = stats.avgHumid;
+                    AveragePressure = stats.avgPress;
+
+                    WeatherItems = weatherData;
+                }
+
+                HasChartData = WeatherItems.Count > 0;
+                Status = $"{WeatherItems.Count} data points loaded";
+            }
+            catch (Exception ex)
+            {
+                Status = $"Error: {ex.Message}";
+            }
         }
 
         [RelayCommand]
