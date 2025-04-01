@@ -14,7 +14,16 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="10">
 
-            <Frame BorderColor="Gray" BackgroundColor="{Binding StatusColor}" Padding="10" Margin="0,5">
+            <Grid BackgroundColor="Blue" Padding="25" Margin="-25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Weather Data Analysis" FontSize="24" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Start" />
+                <Label Grid.Column="1"  Text="Powered by Open-meteo" FontSize="16" TextColor="LightGray" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+            </Grid>
+
+            <Frame BorderColor="Gray" BackgroundColor="{Binding StatusColor}" Padding="10" Margin="25">
                 <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="20" HorizontalTextAlignment="Center" />
             </Frame>
 
