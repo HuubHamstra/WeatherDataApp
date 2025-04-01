@@ -14,7 +14,9 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="10">
 
-            <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="14" />
+            <Frame BorderColor="Gray" BackgroundColor="{Binding StatusColor}" Padding="10" Margin="0,5">
+                <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="20" HorizontalTextAlignment="Center" />
+            </Frame>
 
             <Label Text="{Binding AverageTemperature, StringFormat='Average temperature: {0:F1} °C'}" />
             <Label Text="{Binding MaxTemperature, StringFormat='Max temperature: {0:F1} °C'}" />

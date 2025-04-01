@@ -43,6 +43,14 @@ namespace WeatherDataApp.ViewModels
             set { _status = value; OnPropertyChanged(); }
         }
 
+        private string _statusColor = "Orange";
+
+        public string StatusColor
+        {
+            get => _statusColor;
+            set { _statusColor = value; OnPropertyChanged(); }
+        }
+
         private double _averageTemperature;
         public double AverageTemperature
         {
@@ -181,6 +189,7 @@ namespace WeatherDataApp.ViewModels
         private async Task LoadWeatherAsync()
         {
             Status = "Started loading weather data...";
+            StatusColor = "LightGray";
             WeatherItems.Clear();
 
             var start = new DateTime(2022, 1, 1);
@@ -224,6 +233,7 @@ namespace WeatherDataApp.ViewModels
 
                 HasChartData = WeatherItems.Count > 0;
                 Status = $"{WeatherItems.Count} data points loaded";
+                StatusColor = "Lime";
             }
             catch (Exception ex)
             {
