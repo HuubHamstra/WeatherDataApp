@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.VisualBasic;
 using WeatherDataApp.Models;
 using WeatherDataApp.Services;
 
@@ -17,7 +15,7 @@ namespace WeatherDataApp.ViewModels
 
         private readonly FileService _fileService = new();
 
-        private ObservableCollection<WeatherData> _weatherItems = new();
+        private ObservableCollection<WeatherData> _weatherItems = [];
         public ObservableCollection<WeatherData> WeatherItems
         {
             get => _weatherItems;
@@ -26,7 +24,7 @@ namespace WeatherDataApp.ViewModels
 
         public ICommand LoadWeatherCommand { get; }
 
-        public List<int> EntriesPerFileOptions { get; } = new() { 10,20,30,40,50,60,70,80,90,100 };
+        public List<int> EntriesPerFileOptions { get; } = [10,20,30,40,50,60,70,80,90,100];
 
         private int _entriesPerFile;
         public int EntriesPerFile
@@ -187,36 +185,35 @@ namespace WeatherDataApp.ViewModels
         }
 
         private async Task LoadWeatherAsync()
-        {
+        {            
             Status = "Started loading weather data...";
             StatusColor = "LightGray";
             WeatherItems.Clear();
-
-            var start = new DateTime(2022, 1, 1);
-            var end = new DateTime(2022, 1, 5);
+            HasChartData = false;
 
             try
             {
-                var data = await _weatherService.GetWeatherDataRangeParallelAsync(StartDate, EndDate);
+                var allData = await _weatherService.GetWeatherDataAsync(
+                StartDate.ToString("yyyy-MM-dd"),
+                EndDate.ToString("yyyy-MM-dd"));
 
-                WeatherItems = new ObservableCollection<WeatherData>(data);
+                WeatherItems = new ObservableCollection<WeatherData>(allData);
 
-                if (data.Count != 0)
+                if (allData.Count != 0)
                 {
-                    (var stats, var weatherData) = await Task.Run(() =>
+                    var stats = await Task.Run(() =>
                     {
-                        var avgTemp = data.AsParallel().Average(w => w.Temperature);
-                        var maxTemp = data.AsParallel().Max(w => w.Temperature);
-                        var minTemp = data.AsParallel().Min(w => w.Temperature);
-                        var avgWind = data.AsParallel().Average(w => w.WindSpeed);
-                        var avgPrecip = data.AsParallel().Average(w => w.Precipitation);
-                        var avgCloud = data.AsParallel().Average(w => w.CloudCover);
-                        var avgHumid = data.AsParallel().Average(w => w.Humidity);
-                        var avgPress = data.AsParallel().Average(w => w.Pressure);
-
-                        var collection = new ObservableCollection<WeatherData>(data);
-
-                        return (new { avgTemp, maxTemp, minTemp, avgWind, avgPrecip, avgCloud, avgHumid, avgPress }, collection);
+                        return new
+                        {
+                            avgTemp = allData.Average(w => w.Temperature),
+                            maxTemp = allData.Max(w => w.Temperature),
+                            minTemp = allData.Min(w => w.Temperature),
+                            avgWind = allData.Average(w => w.WindSpeed),
+                            avgPrecip = allData.Average(w => w.Precipitation),
+                            avgCloud = allData.Average(w => w.CloudCover),
+                            avgHumid = allData.Average(w => w.Humidity),
+                            avgPress = allData.Average(w => w.Pressure),
+                        };
                     });
 
                     AverageTemperature = stats.avgTemp;
@@ -227,8 +224,6 @@ namespace WeatherDataApp.ViewModels
                     AverageCloudCover = stats.avgCloud;
                     AverageHumidity = stats.avgHumid;
                     AveragePressure = stats.avgPress;
-
-                    WeatherItems = weatherData;
                 }
 
                 HasChartData = WeatherItems.Count > 0;
@@ -238,6 +233,7 @@ namespace WeatherDataApp.ViewModels
             catch (Exception ex)
             {
                 Status = $"Error: {ex.Message}";
+                StatusColor = "Red";
             }
         }
 
@@ -247,12 +243,14 @@ namespace WeatherDataApp.ViewModels
             var result = await FolderPicker.Default.PickAsync(cancellationToken);
             if (result.IsSuccessful)
             {
-                _fileService.ExportWeatherDataAsync(WeatherItems.ToList(), result.Folder.Path, _entriesPerFile);
+                await _fileService.ExportWeatherDataAsync(
+                    [.. WeatherItems],
+                    result.Folder.Path,
+                    _entriesPerFile);
             }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

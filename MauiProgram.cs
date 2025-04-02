@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 
