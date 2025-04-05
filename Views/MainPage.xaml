@@ -27,14 +27,78 @@
                 <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="20" HorizontalTextAlignment="Center" />
             </Frame>
 
-            <Label Text="{Binding AverageTemperature, StringFormat='Average temperature: {0:F1} °C'}" />
-            <Label Text="{Binding MaxTemperature, StringFormat='Max temperature: {0:F1} °C'}" />
-            <Label Text="{Binding MinTemperature, StringFormat='Min temperature: {0:F1} °C'}" />
-            <Label Text="{Binding AverageWindSpeed, StringFormat='Average wind speed: {0:F1} km/h'}" />
-            <Label Text="{Binding AveragePrecipitation, StringFormat='Average precipitation: {0:F2} mm'}" />
-            <Label Text="{Binding AverageCloudCover, StringFormat='Average cloud cover: {0:F0}%'}" />
-            <Label Text="{Binding AverageHumidity, StringFormat='Average humidity: {0:F0}%'}" />
-            <Label Text="{Binding AveragePressure, StringFormat='Average pressure: {0:F0} hPa'}" />
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average temperature: " FontAttributes="Bold" />
+                        <Span Text="{Binding AverageTemperature, StringFormat='{0:F1}'}" />
+                        <Span Text=" °C" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Max temperature: " FontAttributes="Bold" />
+                        <Span Text="{Binding MaxTemperature, StringFormat='{0:F1}'}" />
+                        <Span Text=" °C" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Min temperature: " FontAttributes="Bold" />
+                        <Span Text="{Binding MinTemperature, StringFormat='{0:F1}'}" />
+                        <Span Text=" °C" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average wind speed: " FontAttributes="Bold" />
+                        <Span Text="{Binding AverageWindSpeed, StringFormat='{0:F1}'}" />
+                        <Span Text=" km/h" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average precipitation: " FontAttributes="Bold" />
+                        <Span Text="{Binding AveragePrecipitation, StringFormat='{0:F2}'}" />
+                        <Span Text=" mm" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average cloud cover: " FontAttributes="Bold" />
+                        <Span Text="{Binding AverageCloudCover, StringFormat='{0:F0}'}" />
+                        <Span Text="%" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average humidity: " FontAttributes="Bold" />
+                        <Span Text="{Binding AverageHumidity, StringFormat='{0:F0}'}" />
+                        <Span Text="%" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Average pressure: " FontAttributes="Bold" />
+                        <Span Text="{Binding AveragePressure, StringFormat='{0:F0}'}" />
+                        <Span Text=" hPa" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
 
             <VerticalStackLayout>
                 <HorizontalStackLayout Spacing="10">
