@@ -27,103 +27,110 @@
                 <Label Text="{Binding Status}" FontAttributes="Italic" FontSize="20" HorizontalTextAlignment="Center" />
             </Frame>
 
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average temperature: " FontAttributes="Bold" />
-                        <Span Text="{Binding AverageTemperature, StringFormat='{0:F1}'}" />
-                        <Span Text=" °C" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Max temperature: " FontAttributes="Bold" />
-                        <Span Text="{Binding MaxTemperature, StringFormat='{0:F1}'}" />
-                        <Span Text=" °C" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Min temperature: " FontAttributes="Bold" />
-                        <Span Text="{Binding MinTemperature, StringFormat='{0:F1}'}" />
-                        <Span Text=" °C" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average wind speed: " FontAttributes="Bold" />
-                        <Span Text="{Binding AverageWindSpeed, StringFormat='{0:F1}'}" />
-                        <Span Text=" km/h" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average precipitation: " FontAttributes="Bold" />
-                        <Span Text="{Binding AveragePrecipitation, StringFormat='{0:F2}'}" />
-                        <Span Text=" mm" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average cloud cover: " FontAttributes="Bold" />
-                        <Span Text="{Binding AverageCloudCover, StringFormat='{0:F0}'}" />
-                        <Span Text="%" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average humidity: " FontAttributes="Bold" />
-                        <Span Text="{Binding AverageHumidity, StringFormat='{0:F0}'}" />
-                        <Span Text="%" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Average pressure: " FontAttributes="Bold" />
-                        <Span Text="{Binding AveragePressure, StringFormat='{0:F0}'}" />
-                        <Span Text=" hPa" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <VerticalStackLayout Grid.Column="0" Padding="10">
+                    <Label Text="Filter/Export" TextColor="Gray" FontSize="20" Margin="0,0,0,20"/>
+                    <HorizontalStackLayout Spacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Start date:" FontSize="14" />
+                            <DatePicker Date="{Binding StartDate}" />
 
-            <VerticalStackLayout>
-                <HorizontalStackLayout Spacing="10">
-                    <VerticalStackLayout>
-                        <Label Text="Start date:" FontSize="14" />
-                        <DatePicker Date="{Binding StartDate}" />
+                        </VerticalStackLayout>
 
-                    </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="End date:" FontSize="14" />
+                            <DatePicker Date="{Binding EndDate}" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
 
-                    <VerticalStackLayout>
-                        <Label Text="End date:" FontSize="14" />
-                        <DatePicker Date="{Binding EndDate}" />
-                    </VerticalStackLayout>
-                </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Warning: Large data set selected!" TextColor="Red" IsVisible="{Binding IsLargeDataSet}" />
+                    </HorizontalStackLayout>
 
-                <HorizontalStackLayout>
-                    <Label Text="Warning: Large data set selected!" TextColor="Red" IsVisible="{Binding IsLargeDataSet}" />
-                </HorizontalStackLayout>
-
-                <Label Text="Amount of items per file:" FontSize="14" />
-                <Picker ItemsSource="{Binding EntriesPerFileOptions}" 
-                        SelectedItem="{Binding EntriesPerFile}"
-                        IsVisible="{Binding HasChartData}" />
-                <Button Text="Export data" Command="{Binding PickFolderCommand}" IsVisible="{Binding HasChartData}" />
-            </VerticalStackLayout>
+                    <Label Text="Amount of items per file:" FontSize="14" />
+                    <Picker ItemsSource="{Binding EntriesPerFileOptions}" SelectedItem="{Binding EntriesPerFile}" IsVisible="{Binding HasChartData}" />
+                    <Button Text="Export data" Command="{Binding PickFolderCommand}" IsVisible="{Binding HasChartData}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Padding="10">
+                    <Label Text="Calculated information" TextColor="Gray" FontSize="20" Margin="0,0,0,20"/>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average temperature: " FontAttributes="Bold" />
+                                <Span Text="{Binding AverageTemperature, StringFormat='{0:F1}'}" />
+                                <Span Text=" °C" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Max temperature: " FontAttributes="Bold" />
+                                <Span Text="{Binding MaxTemperature, StringFormat='{0:F1}'}" />
+                                <Span Text=" °C" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Min temperature: " FontAttributes="Bold" />
+                                <Span Text="{Binding MinTemperature, StringFormat='{0:F1}'}" />
+                                <Span Text=" °C" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average wind speed: " FontAttributes="Bold" />
+                                <Span Text="{Binding AverageWindSpeed, StringFormat='{0:F1}'}" />
+                                <Span Text=" km/h" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average precipitation: " FontAttributes="Bold" />
+                                <Span Text="{Binding AveragePrecipitation, StringFormat='{0:F2}'}" />
+                                <Span Text=" mm" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average cloud cover: " FontAttributes="Bold" />
+                                <Span Text="{Binding AverageCloudCover, StringFormat='{0:F0}'}" />
+                                <Span Text="%" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average humidity: " FontAttributes="Bold" />
+                                <Span Text="{Binding AverageHumidity, StringFormat='{0:F0}'}" />
+                                <Span Text="%" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Average pressure: " FontAttributes="Bold" />
+                                <Span Text="{Binding AveragePressure, StringFormat='{0:F0}'}" />
+                                <Span Text=" hPa" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+            </Grid>
 
             <VerticalStackLayout>
                 <Label Text="Select which lines to show:" FontAttributes="Bold" />
