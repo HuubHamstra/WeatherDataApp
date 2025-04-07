@@ -203,16 +203,18 @@ namespace WeatherDataApp.ViewModels
                 {
                     var stats = await Task.Run(() =>
                     {
+                        var parallelData = allData.AsParallel();
+
                         return new
                         {
-                            avgTemp = allData.Average(w => w.Temperature),
-                            maxTemp = allData.Max(w => w.Temperature),
-                            minTemp = allData.Min(w => w.Temperature),
-                            avgWind = allData.Average(w => w.WindSpeed),
-                            avgPrecip = allData.Average(w => w.Precipitation),
-                            avgCloud = allData.Average(w => w.CloudCover),
-                            avgHumid = allData.Average(w => w.Humidity),
-                            avgPress = allData.Average(w => w.Pressure),
+                            avgTemp = parallelData.Average(w => w.Temperature),
+                            maxTemp = parallelData.Max(w => w.Temperature),
+                            minTemp = parallelData.Min(w => w.Temperature),
+                            avgWind = parallelData.Average(w => w.WindSpeed),
+                            avgPrecip = parallelData.Average(w => w.Precipitation),
+                            avgCloud = parallelData.Average(w => w.CloudCover),
+                            avgHumid = parallelData.Average(w => w.Humidity),
+                            avgPress = parallelData.Average(w => w.Pressure),
                         };
                     });
 
