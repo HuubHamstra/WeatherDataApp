@@ -24,13 +24,13 @@ namespace WeatherDataApp.ViewModels
 
         public ICommand LoadWeatherCommand { get; }
 
-        public List<int> EntriesPerFileOptions { get; } = [10,20,30,40,50,60,70,80,90,100];
+        public List<int> EntriesPerFileOptions { get; } = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
         private int _entriesPerFile;
         public int EntriesPerFile
         {
             get => _entriesPerFile;
-            set 
+            set
             { _entriesPerFile = value; OnPropertyChanged(); }
         }
 
@@ -81,8 +81,8 @@ namespace WeatherDataApp.ViewModels
         public DateTime StartDate
         {
             get => _startDate;
-            set 
-            { 
+            set
+            {
                 _startDate = value; OnPropertyChanged();
                 OnPropertyChanged(nameof(IsLargeDataSet));
             }
@@ -92,8 +92,8 @@ namespace WeatherDataApp.ViewModels
         public DateTime EndDate
         {
             get => _endDate;
-            set 
-            { 
+            set
+            {
                 _endDate = value; OnPropertyChanged();
                 OnPropertyChanged(nameof(IsLargeDataSet));
             }
@@ -185,7 +185,7 @@ namespace WeatherDataApp.ViewModels
         }
 
         private async Task LoadWeatherAsync()
-        {            
+        {
             Status = "Started loading weather data...";
             StatusColor = "LightGray";
             WeatherItems.Clear();
