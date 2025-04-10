@@ -5,6 +5,14 @@ namespace WeatherDataApp.Services
 {
     public class FileService
     {
+        /// <summary>
+        /// Exports weather data to JSON files asynchronously
+        /// </summary>
+        /// <param name="weatherDataList">All WeatherData to export</param>
+        /// <param name="folderPath">Folderpath to write all files to</param>
+        /// <param name="entriesPerFile">How many WeatherData entries should be in each file</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task ExportWeatherDataAsync(List<WeatherData> weatherDataList, string folderPath, int entriesPerFile)
         {
             if (weatherDataList == null || weatherDataList.Count == 0)
@@ -30,6 +38,12 @@ namespace WeatherDataApp.Services
             await Task.WhenAll(tasks);
         }
 
+        /// <summary>
+        /// Writes a list of WeatherData to a JSON file asynchronously
+        /// </summary>
+        /// <param name="weatherData">WeatherData list to export</param>
+        /// <param name="filePath">Filepath to write file to</param>
+        /// <returns></returns>
         private async Task WriteToFileAsync(List<WeatherData> weatherData, string filePath)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };

@@ -184,6 +184,10 @@ namespace WeatherDataApp.ViewModels
             _entriesPerFile = EntriesPerFileOptions.First();
         }
 
+        /// <summary>
+        /// Load WeatherData from Open Meteo API and calculate statistics
+        /// </summary>
+        /// <returns></returns>
         private async Task LoadWeatherAsync()
         {
             Status = "Started loading weather data...";
@@ -239,6 +243,11 @@ namespace WeatherDataApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Export WeatherData when folder is successfully picked
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [RelayCommand]
         public async Task PickFolder(CancellationToken cancellationToken)
         {

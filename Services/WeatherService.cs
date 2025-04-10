@@ -7,6 +7,12 @@ namespace WeatherDataApp.Services
     {
         private readonly HttpClient _httpClient = new();
 
+        /// <summary>
+        /// Fetches weather data asynchronously for a given date range
+        /// </summary>
+        /// <param name="startDate">Startdate of weatherdata</param>
+        /// <param name="endDate">Enddate of weatherdata</param>
+        /// <returns>Total WeatherData within daterange</returns>
         public async Task<List<WeatherData>> GetWeatherDataAsync(string startDate, string endDate)
         {
             DateTime start = DateTime.Parse(startDate);
@@ -50,7 +56,12 @@ namespace WeatherDataApp.Services
             return allData;
         }
 
-
+        /// <summary>
+        /// Get WeatherData from Open Meteo API for a given date range
+        /// </summary>
+        /// <param name="from">Startdate for data</param>
+        /// <param name="to">Enddate for data</param>
+        /// <returns>WeatherData within daterange</returns>
         private async Task<List<WeatherData>?> FetchWeatherDataForRangeAsync(DateTime from, DateTime to)
         {
             try
