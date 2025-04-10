@@ -194,12 +194,13 @@
             <CollectionView ItemsSource="{Binding WeatherItems}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:WeatherData">
-                        <Frame BorderColor="Gray" Padding="10" Margin="0,5">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Time}" />
+                        <VerticalStackLayout Padding="5">
+                            <BoxView Color="Gray" HeightRequest="2" HorizontalOptions="Fill"/>
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding Time}" Margin="0,0,40,0" />
                                 <Label Text="{Binding Temperature, StringFormat='Temp: {0} °C'}" />
-                            </VerticalStackLayout>
-                        </Frame>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
