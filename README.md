@@ -23,3 +23,6 @@ In addition to these files, there are additional files created by the .NET MAUI 
 2. When you're running this on Windows, you'll need to enable developer mode. For this you need to go to settings and type *"Developer Settings"* into the search bar. At the top will be the setting for enabling developer mode.
 3. Once developer mode is enabled, open the solution ```WeatherDataApp.sln``` in Visual Studio.
 4. At the top, there will be a button to run the application.
+
+## Code conventions
+For the code, the standard .NET code conventions have been used. These conventions can be found [here](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions#language-guidelines).
