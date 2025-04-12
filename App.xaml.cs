@@ -2,10 +2,12 @@
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
+    public App()
+    {
+        InitializeComponent();
 
-		MainPage = new NavigationPage(new Views.MainPage());
-	}
+        UserAppTheme = AppTheme.Light;
+
+        MainPage = new NavigationPage(new Views.MainPage());
+    }
 }
