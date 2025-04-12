@@ -187,7 +187,7 @@ namespace WeatherDataApp.ViewModels
         /// <summary>
         /// Load WeatherData from Open Meteo API and calculate statistics
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation of loading weather data and computing statistics.</returns>
         private async Task LoadWeatherAsync()
         {
             Status = "Started loading weather data...";
@@ -247,7 +247,7 @@ namespace WeatherDataApp.ViewModels
         /// Export WeatherData when folder is successfully picked
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous export operation.</returns>
         [RelayCommand]
         public async Task PickFolder(CancellationToken cancellationToken)
         {
@@ -261,6 +261,9 @@ namespace WeatherDataApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event that is triggered when a property's value changes.
+        /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
